@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Laura CRM – Instagram-Anmeldung</title>
+<style>
+ body{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;background:#f7f3ec;color:#2a2723;
+      display:flex;align-items:center;justify-content:center;min-height:90vh;margin:0}
+ div{max-width:480px;text-align:center;padding:24px}
+ a{color:#8a5a2b}
+</style>
+</head>
+<body>
+<div>
+ <h1 style="font-weight:600">Einen Moment …</h1>
+ <p id="t">Die Anmeldung wird an das Laura CRM auf diesem Mac übergeben.</p>
+ <p id="l" style="display:none"><a id="a" href="#">Hier klicken, falls nichts passiert</a></p>
+</div>
+<script>
+/* Statische Weiterleitungsseite für die Meta-Anmeldung des Laura CRM.
+   Sie speichert nichts, lädt nichts nach und schickt nichts an diesen Webserver.
+   Sie reicht die Rückgabe von Meta (code/state bzw. error) nur an das CRM auf dem eigenen Mac weiter.
+   Der Code allein ist wertlos: Für den Tausch braucht das CRM das App-Geheimnis aus dem macOS-Schlüsselbund. */
+(function(){
+  var q = window.location.search || "";
+  if(!/[?&](code|error|state)=/.test(q)){
+    document.getElementById("t").textContent = "Diese Seite wird nur während der Instagram-Anmeldung im Laura CRM gebraucht.";
+    return;
+  }
+  var ziel = "http://localhost:47865/instagram/rueckleitung" + q;
+  document.getElementById("a").href = ziel;
+  history.replaceState(null, "", window.location.pathname);
+  setTimeout(function(){ document.getElementById("l").style.display = "block"; }, 2500);
+  window.location.replace(ziel);
+})();
+</script>
+</body>
+</html>
